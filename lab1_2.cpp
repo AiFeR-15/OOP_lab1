@@ -38,8 +38,6 @@ double store::costTwo(store other){
 }
 
 int main(){
-
-
     store ob1, ob2;
     cout << "--- Product 1 ---\n";
     ob1.input();
