@@ -1,53 +1,59 @@
 #include <iostream>
 using namespace std;
-typedef struct store s;
+
 struct store{
     double first;
     int second;
+
+    int check();
+    void input();
+    void output();
+    double cost();
+    double costTwo(store other);
 };
 
-int check(double f, int s){
-    if(f>0 && s>0) return 1;
+int store::check(){
+    if(first>0 && second>0) return 1;
     return 0;
 }
 
-void input(s &ob){
+void store::input(){
     do{
         cout << "Enter price (real number) and quantity (integer): ";
-        cin >> ob.first >> ob.second;
-        if(check(ob.first,ob.second)==0)
+        cin >> first >> second;
+        if(check()==0)
         cout << "Error! Values must be positive\n";
-    }while(check(ob.first,ob.second)==0);
+    }while(check()==0);
 }
 
-void output(s ob){
-    cout << "Product price: " << ob.first << "\n";
-    cout << "Product quantity: " << ob.second << "\n";
-} 
-double cost(s ob){
-    return ob.first * ob.second;
+void store::output(){
+    cout << "Product price: " << first << "\n";
+    cout << "Product quantity: " << second << "\n";
 }
-double costTwo(s ob,s ob1){
-    return cost(ob) + cost(ob1);
+double store::cost(){
+    return first * second;
+}
+double store::costTwo(store other){
+    return cost() + other.cost();
 }
 
 int main(){
 
 
-    s ob1, ob2;
+    store ob1, ob2;
     cout << "--- Product 1 ---\n";
-    input(ob1);
+    ob1.input();
     
     cout << "--- Product 2 ---\n";
-    input(ob2);
+    ob2.input();
     
     cout << "\n--- Results ---\n";
-    output(ob1);
-    cout << "Cost of the first: " << cost(ob1) << "\n\n";
+    ob1.output();
+    cout << "Cost of the first: " << ob1.cost() << "\n\n";
 
-    output(ob2);
-    cout << "Cost of the second: "<< cost(ob2) << "\n\n";
+    ob2.output();
+    cout << "Cost of the second: "<< ob2.cost() << "\n\n";
 
-    cout << "Total cost: " << costTwo(ob1, ob2)<< "\n";
+    cout << "Total cost: " << ob1.costTwo(ob2)<< "\n";
 return 0;
 }
