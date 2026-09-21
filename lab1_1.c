@@ -12,12 +12,21 @@ int check(double f, int s){
 }
 
 void input(s *ob){
+    int flag;
     do{
         printf("Enter price (real number) and quantity (integer): ");
-        scanf("%lf %d", &ob->first, &ob->second);
-        if(check(ob->first,ob->second)==0)
+        flag = scanf("%lf %d", &ob->first, &ob->second);
+
+        if(flag !=2){
+            printf("Error! Please enter numbers only.\n");
+            while (getchar() != '\n');
+            ob->first = 0;
+            ob->second = 0;
+        }
+        else if(check(ob->first,ob->second)==0){
         printf("Error! Values must be positive\n");
-    }while(check(ob->first,ob->second)==0);
+    }
+    }while(check(ob->first,ob->second)==0 );
 }
 
 void output(s ob){

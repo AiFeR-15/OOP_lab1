@@ -18,12 +18,22 @@ int store::check(){
 }
 
 void store::input(){
-    do{
+    do {
         cout << "Enter price (real number) and quantity (integer): ";
         cin >> first >> second;
-        if(check()==0)
-        cout << "Error! Values must be positive\n";
-    }while(check()==0);
+
+        if (cin.fail()) {
+            cout << "Error! Please enter numbers only.\n";
+            
+            cin.clear();
+            cin.ignore(10000, '\n'); 
+            first = 0; 
+            second = 0;
+        } 
+        else if (check() == 0) {
+            cout << "Error! Values must be positive\n";
+        }
+    } while (check() == 0);
 }
 
 void store::output(){
