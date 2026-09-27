@@ -1,4 +1,6 @@
 #include <iostream>
+#include <cctype>
+
 using namespace std;
 int check(int size) {
     if (size > 0 && size <= 100) return 1;
@@ -7,15 +9,25 @@ int check(int size) {
 
 template <typename Type>
 void input(Type arr[], int size){
-    cout << "Введіть "<< size << " елементів маисву через пробіл:\n";
+    cout << "Enter "<< size << " elements of the array separated by space:\n";
     for (int i=0; i<size ; i++){
-        cin >> arr[i];
+        while(true){
+            cin >> arr[i];
+            
+            if (cin.fail()) {
+                cout << "Error! Enter a number, not letters. Try again for element #" << i + 1 << ": ";
+                cin.clear();             
+                cin.ignore(10000, '\n');
+            } else {
+                break;
+            }
+        }
     }
 }
 
 template <typename Type>
 void output(Type arr[], int size){
-    cout << "Ваш масив: ";
+    cout << "Your array: ";
     for (int i = 0; i<size; i++){
         cout << arr[i]<< ' ';
     }
@@ -36,7 +48,7 @@ int findMax(const char* str ){
     int countLen=0;
 
     for(int i=0; str[i] != '\0'; i++){
-        if (str[i] != ' '){
+        if (isalpha(str[i]) || str[i] == '\''){
             countLen++;
         }
         else{
@@ -53,25 +65,49 @@ int main(){
     int size;
 
     do {
-        cout << "Введіть к-сть елементів для масиву INT ";
+        cout << "Enter the number of elements for the INT array ";
         cin >> size;
-        if(check(size)==0) cout << "Поимлка! Некоректний розмір.\n";
+        if (cin.fail()) {
+            cout << "Error! Enter a number, not letters.\n";
+            cin.clear();
+            cin.ignore(10000, '\n');
+            size = 0; 
+        }
+        else if(check(size) == 0) {
+            cout << "Error! Incorrect size.\n";
+        }
     }while (check(size) == 0);
 
     int intArr[size];
     input(intArr, size);
     output(intArr, size);
-    cout << "Максимальний елемнет (int): "<< findMax(intArr,size)<< "\n\n";
+    cout << "Maximum element (int): "<< findMax(intArr,size)<< "\n\n";
 
     do {
-        cout << "Введіть к-сть елементів для масиву DOUBLE ";
+        cout << "Enter the number of elements for the DOUBLE array ";
         cin >> size;
-        if(check(size)==0) cout << "Поимлка! Некоректний розмір.\n";
+        if (cin.fail()) {
+            cout << "Error! Enter a number, not letters.\n";
+            cin.clear();
+            cin.ignore(10000, '\n');
+            size = 0;
+        }
+        else if(check(size) == 0) {
+            cout << "Error! Incorrect size.\n";
+        }
     }while (check(size) == 0);
 
-    int doubleArr[size];
+    double doubleArr[size];
     input(doubleArr, size);
     output(doubleArr, size);
-    cout << "Максимальний елемнет (double): "<< findMax(doubleArr,size)<< "\n\n";
+    cout << "Maximum element (double): "<< findMax(doubleArr,size)<< "\n\n";
+
+    char text[256];
+    cout << "Enter a sentence in English (with spaces): ";
+    cin.ignore(10000, '\n');
+    cin.getline(text, 256);
+    cout << "Entered string: " << text << "\n";
+    cout << "Maximum word length: " << findMax(text) << "\n";
+    
     return 0;
 }
