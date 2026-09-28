@@ -108,6 +108,6 @@ int main(){
     cin.getline(text, 256);
     cout << "Entered string: " << text << "\n";
     cout << "Maximum word length: " << findMax(text) << "\n";
-    
+    // ведення данів , якщо вводиш 1.5 треба щоб просило знову ввести, меню зроби, мішаний масив(з числових)
     return 0;
 }
