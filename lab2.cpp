@@ -14,7 +14,7 @@ void input(Type arr[], int size){
         while(true){
             cin >> arr[i];
             
-            if (cin.fail()) {
+            if (cin.fail()|| (cin.peek() != ' ' && cin.peek() != '\n')) {
                 cout << "Error! Enter a number, not letters. Try again for element #" << i + 1 << ": ";
                 cin.clear();             
                 cin.ignore(10000, '\n');
@@ -62,8 +62,24 @@ int findMax(const char* str ){
 }
 
 int main(){
-    int size;
+    int menuChoice;
+    do{
+        cout << "---Menu---\n";
+        cout << "1. Array INT\n";
+        cout << "2. Array DOUBLE\n";
+        cout << "3. English sentence (CHAR)\n";
+        cout << "0. Exit \n";
+        cin >> menuChoice;
 
+        if (cin.fail() || (cin.peek() != ' ' && cin.peek() != '\n')) {
+            cin.clear();
+            cin.ignore(10000, '\n');
+            cout << "Error! Invalid menu choice.\n\n";
+            continue;
+        }
+    switch(menuChoice){
+        case 1: {
+    int size;
     do {
         cout << "Enter the number of elements for the INT array ";
         cin >> size;
@@ -82,7 +98,10 @@ int main(){
     input(intArr, size);
     output(intArr, size);
     cout << "Maximum element (int): "<< findMax(intArr,size)<< "\n\n";
-
+    break;
+    }
+    case 2: {
+    int size;
     do {
         cout << "Enter the number of elements for the DOUBLE array ";
         cin >> size;
@@ -101,13 +120,26 @@ int main(){
     input(doubleArr, size);
     output(doubleArr, size);
     cout << "Maximum element (double): "<< findMax(doubleArr,size)<< "\n\n";
-
+    break;
+    }
+    case 3:{
     char text[256];
     cout << "Enter a sentence in English (with spaces): ";
     cin.ignore(10000, '\n');
     cin.getline(text, 256);
     cout << "Entered string: " << text << "\n";
     cout << "Maximum word length: " << findMax(text) << "\n";
+    break;
+    }
+    case 0:{
+    cout << "Exiting...\n";
+    break;
+    }
+    default:
+    cout << "Error! Select 1, 2, 3 or 0.\n\n";
+    break;
+    }
+    }while (menuChoice !=0);
     // ведення данів , якщо вводиш 1.5 треба щоб просило знову ввести, меню зроби, мішаний масив(з числових)
     return 0;
 }
