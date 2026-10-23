@@ -1,7 +1,6 @@
 #include <iostream>
 #include <cstdio>
 #include <windows.h>
-
 using namespace std;
 
 struct TFazzyNumber {
@@ -20,12 +19,8 @@ class FuzzyClass {
     void output();
     char* toPChar();
 
-    TFazzyNumber getStruct(){
-        return object;
-    }
-    void setStruct(TFazzyNumber newObj){
-        object = newObj;
-    }
+    TFazzyNumber getStruct() { return object; }
+    void setStruct(TFazzyNumber newObj) { object = newObj; }
 };
 
 void FuzzyClass::input() {
@@ -52,13 +47,12 @@ void FuzzyClass::init(double le, double val, double re) {
 char* FuzzyClass::toPChar() {
     char* buffer = new char[100]; 
     sprintf(buffer, "(%.2f, %.2f, %.2f)", 
-            object.x - object.left_e, 
-            object.x, 
-            object.x + object.right_e);
+            object.x - object.left_e, object.x, object.x + object.right_e);
     return buffer; 
 }
 
-FuzzyClass addFuzzy(FuzzyClass ob1, FuzzyClass ob2) {
+// --- ПЕРЕВАНТАЖЕННЯ ОПЕРАТОРІВ ДЛЯ КЛАСУ ---
+FuzzyClass operator+(FuzzyClass ob1, FuzzyClass ob2) {
     TFazzyNumber A = ob1.getStruct();
     TFazzyNumber B = ob2.getStruct();
     TFazzyNumber result;
@@ -72,7 +66,7 @@ FuzzyClass addFuzzy(FuzzyClass ob1, FuzzyClass ob2) {
     return resultObj;
 }
 
-FuzzyClass subFuzzy(FuzzyClass ob1, FuzzyClass ob2) {
+FuzzyClass operator-(FuzzyClass ob1, FuzzyClass ob2) {
     TFazzyNumber A = ob1.getStruct();
     TFazzyNumber B = ob2.getStruct();
     TFazzyNumber result;
@@ -86,7 +80,7 @@ FuzzyClass subFuzzy(FuzzyClass ob1, FuzzyClass ob2) {
     return resultObj;
 }
 
-FuzzyClass mulFuzzy(FuzzyClass ob1, FuzzyClass ob2) {
+FuzzyClass operator*(FuzzyClass ob1, FuzzyClass ob2) {
     TFazzyNumber A = ob1.getStruct();
     TFazzyNumber B = ob2.getStruct();
     TFazzyNumber result;
@@ -100,27 +94,7 @@ FuzzyClass mulFuzzy(FuzzyClass ob1, FuzzyClass ob2) {
     return resultObj;
 }
 
-FuzzyClass inverseFuzzy(FuzzyClass ob1) {
-    TFazzyNumber A = ob1.getStruct();
-    TFazzyNumber result;
-    
-    if (A.x > 0) {
-        result.x = 1.0 / A.x;
-        result.left_e = result.x - (1.0 / (A.x + A.right_e));
-        result.right_e = (1.0 / (A.x - A.left_e)) - result.x;
-    } else {
-        cout << "Помилка: число <= 0, дія (1/Ob1) не може бути виконана.\n";
-        result.x = 0;
-        result.left_e = 0;
-        result.right_e = 0;
-    }
-    
-    FuzzyClass resultObj;
-    resultObj.setStruct(result);
-    return resultObj;
-}
-
-FuzzyClass divFuzzy(FuzzyClass ob1, FuzzyClass ob2) {
+FuzzyClass operator/(FuzzyClass ob1, FuzzyClass ob2) {
     TFazzyNumber A = ob1.getStruct();
     TFazzyNumber B = ob2.getStruct();
     TFazzyNumber result;
@@ -130,10 +104,27 @@ FuzzyClass divFuzzy(FuzzyClass ob1, FuzzyClass ob2) {
         result.left_e = result.x - ((A.x - A.left_e) / (B.x + B.right_e));
         result.right_e = ((A.x + A.right_e) / (B.x - B.left_e)) - result.x;
     } else {
-        cout << "Помилка: дільник <= 0, дія (Ob1/Ob2) не може бути виконана.\n";
-        result.x = 0;
-        result.left_e = 0;
-        result.right_e = 0;
+        cout << "Помилка: дільник <= 0.\n";
+        result.x = 0; result.left_e = 0; result.right_e = 0;
+    }
+    
+    FuzzyClass resultObj;
+    resultObj.setStruct(result);
+    return resultObj;
+}
+
+// Оператор ділення 1.0 на об'єкт (1 / Ob1)
+FuzzyClass operator/(double lhs, FuzzyClass ob1) {
+    TFazzyNumber A = ob1.getStruct();
+    TFazzyNumber result;
+    
+    if (A.x > 0) {
+        result.x = lhs / A.x;
+        result.left_e = result.x - (lhs / (A.x + A.right_e));
+        result.right_e = (lhs / (A.x - A.left_e)) - result.x;
+    } else {
+        cout << "Помилка: число <= 0.\n";
+        result.x = 0; result.left_e = 0; result.right_e = 0;
     }
     
     FuzzyClass resultObj;
@@ -147,29 +138,32 @@ int main() {
     
     FuzzyClass num1, num2, resultObj;
 
-    cout << "Введіть перше нечітке число:\n";
+    cout << "--- ЧАСТИНА 2: КЛАСИ ТА ПЕРЕВАНТАЖЕННЯ ---\n";
+    cout << "Введіть перше число:\n";
     num1.input();
 
-    cout << "\nВведіть друге нечітке число:\n";
+    cout << "\nВведіть друге число:\n";
     num2.input();
 
-    resultObj = addFuzzy(num1, num2);
-    cout << "\nРезультат додавання:\n";
+    // Завдяки перевантаженню ми пишемо просто + замість addFuzzy
+    resultObj = num1 + num2;
+    cout << "\nРезультат додавання (num1 + num2):\n";
     resultObj.output();
 
-    resultObj = subFuzzy(num1, num2);
-    cout << "Результат віднімання:\n";
+    resultObj = num1 - num2;
+    cout << "Результат віднімання (num1 - num2):\n";
     resultObj.output();
     
-    resultObj = mulFuzzy(num1, num2);
-    cout << "Результат множення:\n";
+    resultObj = num1 * num2;
+    cout << "Результат множення (num1 * num2):\n";
     cout << resultObj.toPChar() << "\n";
 
-    resultObj = inverseFuzzy(num1);
-    cout << "Результат 1/Ob1 (для першого числа):\n";
+    // Працює навіть ділення звичайного числа на об'єкт!
+    resultObj = 1.0 / num1;
+    cout << "Результат 1/Ob1:\n";
     resultObj.output();
 
-    resultObj = divFuzzy(num1, num2);
+    resultObj = num1 / num2;
     cout << "Результат ділення (Ob1/Ob2):\n";
     resultObj.output();
 
