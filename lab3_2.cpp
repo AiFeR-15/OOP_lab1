@@ -131,9 +131,6 @@ FuzzyClass operator/(double lhs, FuzzyClass ob1) {
 }
 
 int main() {
-    SetConsoleCP(65001);
-    SetConsoleOutputCP(65001);
-    
     FuzzyClass num1, num2, resultObj;
 
     cout << "--- ЧАСТИНА 2: КЛАСИ ТА ПЕРЕВАНТАЖЕННЯ ---\n";
