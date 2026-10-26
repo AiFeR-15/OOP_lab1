@@ -2,7 +2,7 @@
 #include <cstdio>
 using namespace std;
 
-// Структура містить ЛИШЕ дані (без функцій всередині)
+
 struct TFazzyNumber {
     double left_e;
     double x;
