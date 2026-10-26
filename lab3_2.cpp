@@ -1,6 +1,5 @@
 #include <iostream>
 #include <cstdio>
-#include <windows.h>
 using namespace std;
 
 struct TFazzyNumber {
@@ -51,7 +50,6 @@ char* FuzzyClass::toPChar() {
     return buffer; 
 }
 
-// --- ПЕРЕВАНТАЖЕННЯ ОПЕРАТОРІВ ДЛЯ КЛАСУ ---
 FuzzyClass operator+(FuzzyClass ob1, FuzzyClass ob2) {
     TFazzyNumber A = ob1.getStruct();
     TFazzyNumber B = ob2.getStruct();
@@ -113,7 +111,7 @@ FuzzyClass operator/(FuzzyClass ob1, FuzzyClass ob2) {
     return resultObj;
 }
 
-// Оператор ділення 1.0 на об'єкт (1 / Ob1)
+
 FuzzyClass operator/(double lhs, FuzzyClass ob1) {
     TFazzyNumber A = ob1.getStruct();
     TFazzyNumber result;
@@ -145,7 +143,6 @@ int main() {
     cout << "\nВведіть друге число:\n";
     num2.input();
 
-    // Завдяки перевантаженню ми пишемо просто + замість addFuzzy
     resultObj = num1 + num2;
     cout << "\nРезультат додавання (num1 + num2):\n";
     resultObj.output();
@@ -158,7 +155,6 @@ int main() {
     cout << "Результат множення (num1 * num2):\n";
     cout << resultObj.toPChar() << "\n";
 
-    // Працює навіть ділення звичайного числа на об'єкт!
     resultObj = 1.0 / num1;
     cout << "Результат 1/Ob1:\n";
     resultObj.output();
