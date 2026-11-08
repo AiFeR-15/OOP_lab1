@@ -5,7 +5,18 @@ using namespace std;
 
 int main() {
     cout << "--- Створення першого многочлена ---" << endl;
-    Polynomial p1(3); // Працює конструктор з параметрами
+    
+    // Блок безпечного введення замість жорсткого Polynomial p1(3);
+    int size;
+    while (true) {
+        cout << "Введіть кількість коефіцієнтів (більше 0): ";
+        if (cin >> size && size > 0) break;
+        cout << "Помилка! Введіть додатнє ціле число.\n";
+        cin.clear();
+        cin.ignore(10000, '\n');
+    }
+    Polynomial p1(size); // Працює конструктор з параметрами
+    
     p1.input();
     
     cout << "\nВаш перший многочлен (P1): ";
