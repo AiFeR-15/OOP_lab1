@@ -4,23 +4,21 @@
 #include "TTriangle.h"
 
 // ==========================================
-// 1. ПОХІДНИЙ КЛАС: ПРЯМОКУТНИЙ ТРИКУТНИК (кут = 90)
+// ПОХІДНИЙ КЛАС 1: Прямокутний трикутник (кут = 90)
 // ==========================================
 class RightTriangle : public TTriangle {
 public:
     RightTriangle();
     RightTriangle(double legA, double legB);
 
-    // Реалізація чисто віртуальних функцій пращура (override перевіряє точність)
     double area() const override;
     double perimeter() const override;
     void input() override;
     void output() const override;
-    std::string getType() const override;
 };
 
 // ==========================================
-// 2. ПОХІДНИЙ КЛАС: РІВНОБЕДРЕНИЙ ТРИКУТНИК (a == b)
+// ПОХІДНИЙ КЛАС 2: Рівнобедрений трикутник (a == b)
 // ==========================================
 class IsoscelesTriangle : public TTriangle {
 public:
@@ -31,11 +29,10 @@ public:
     double perimeter() const override;
     void input() override;
     void output() const override;
-    std::string getType() const override;
 };
 
 // ==========================================
-// 3. ПОХІДНИЙ КЛАС: РІВНОСТОРОННІЙ ТРИКУТНИК (a == b, кут = 60)
+// ПОХІДНИЙ КЛАС 3: Рівносторонній трикутник (a == b, кут = 60)
 // ==========================================
 class EquilateralTriangle : public TTriangle {
 public:
@@ -46,7 +43,6 @@ public:
     double perimeter() const override;
     void input() override;
     void output() const override;
-    std::string getType() const override;
 };
 
 #endif
